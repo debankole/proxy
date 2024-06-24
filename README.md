@@ -10,11 +10,11 @@ The reverse proxy supports the following functionalities:
 
 ### Reverse Proxy Functionality
 
-The reverse proxy forwards incoming requests to a pool of backend servers. It acts as an intermediary between clients and backend servers, allowing for load balancing. List of backends is configured via environment variables using prefix "HTTP_SERVER_URL_" and HTTPS_SERVER_URL_, e.g. HTTP_SERVER_URL_backend1, HTTP_SERVER_URL_back2.
+The reverse proxy forwards incoming requests to a pool of backend servers. It acts as an intermediary between clients and backend servers, allowing for load balancing. List of backends is configured via environment variables using prefix `HTTP_SERVER_URL_` and `HTTPS_SERVER_URL_` , e.g. `HTTP_SERVER_URL_backend1`, `HTTP_SERVER_URL_back2`.
 
 ### Authorization
 
-The reverse proxy implements a basic authorization mechanism. It checks for a specific header (e.g., X-Auth-Token) in incoming requests. Only requests with a valid token are forwarded to the backend servers. Tokens are provided via environment variables using prefif "AUTH_TOKEN", e.g AUTH_TOKEN_1, AUTH_TOKEN_backend_2
+The reverse proxy implements a basic authorization mechanism. It checks for a `X-Auth-Token` header in incoming requests. Only requests with a valid token are forwarded to the backend servers. Tokens are provided via environment variables using prefix `AUTH_TOKEN`, e.g `AUTH_TOKEN_1`, `AUTH_TOKEN_backend_2`
 
 ### WebSocket Support
 
@@ -33,14 +33,14 @@ Functionality related to graceful websockets shutdown is implemented by keeping 
 
 ## Testing
 Some functionality is covered with unit tests. But the core features are covered with end to end tests.
-E2e tests reside in tests/test_ws_client_test.go file. Tests directory also contains test web server ("test_server.go") and a script to run and cleanup backend web servers ("run_backends.sh")
+E2e tests reside in `tests/test_ws_client_test.go` file. Tests directory also contains test web server (`test_server.go`) and a script to run and cleanup backend web servers (`run_backends.sh`)
 
-All tests in test_ws_client_test.go require proxy to be running as well as the backend servers. Everything is started automatically when any of the tests are running.
+All tests in `test_ws_client_test.go` require proxy to be running as well as the backend servers. **Everything is started automatically when any of the tests are running**.
 
-"TestHttpRoundRobin" covers http proxying and round robin logic.
-"TestHttpsRoundRobin" covers https proxying and round robin logic. 
-"TestWebsocketsRoundRobin" covers websockets proxying and round robin logic. 
-"TestGracefulShutdown" covers graceful shutdown of websockets connections. It initiates the WS connection, makes the server wait for some time, meanwhile SIGTERM is sent to the proxy. The test verifies that we still get response from the server even after termination attempt was made. If the wait time is longer than the timeout then the connection are terminated.
+`TestHttpRoundRobin` covers http proxying and round robin logic.<br> 
+`TestHttpsRoundRobin` covers https proxying and round robin logic. <br> 
+`TestWebsocketsRoundRobin` covers websockets proxying and round robin logic. <br> 
+`TestGracefulShutdown` covers graceful shutdown of websockets connections. It initiates the WS connection, makes the server wait for some time, meanwhile SIGTERM is sent to the proxy. The test verifies that we still get response from the server even after termination attempt was made. If the wait time is longer than the timeout then the connection are terminated.
 
 ## Configuration
 
@@ -48,10 +48,10 @@ Configuration can be provided via environment variables or via dotenv file. You 
 
 ## Assumptions and Design Decisions
 
-The project makes the following assumptions and design decisions:
+The project makes the following assumptions and design decisions:<br> 
 
-It was not clear how much of the code I need to write by myself and how much can be delegated to  3-rd party libraries, so I implemented some of the high level parts manually while leaving low-level or error prone parts to the libraries.  
+It was not clear how much of the code I need to write by myself and how much can be delegated to  3-rd party libraries, so I implemented some of the high level parts manually while leaving low-level or error prone parts to the libraries.  <br> 
 
-For http/https I used a built-in reverse proxy from the standard httputils package. 
+For http/https I used a built-in reverse proxy from the standard httputils package. <br> 
 
-I assumed that it was important to write some actual proxy-related code and to show that I’ve done some research, so for websockets I implemented the proxy manually (except the upgrade functionality that I delegate to ‘gorilla/websocket’).
+I assumed that it was important to write some actual proxy-related code and to show that I’ve done some research, so for websockets I implemented the proxy manually (except the upgrade functionality that I delegate to ‘gorilla/websocket’).<br> 
