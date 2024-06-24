@@ -55,3 +55,10 @@ It was not clear how much of the code I need to write by myself and how much can
 For http/https I used a built-in reverse proxy from the standard httputils package. <br> 
 
 I assumed that it was important to write some actual proxy-related code and to show that I’ve done some research, so for websockets I implemented the proxy manually (except the upgrade functionality that I delegate to ‘gorilla/websocket’).<br> 
+
+## Improvements
+
+The bottleneck of this server will likely be Network I/O, CPU, memory allocations. 
+Possible ways of improvement:
+- consider using pool of objects if possible. Goroutine pool (`https://github.com/panjf2000/ants`), maybe pool of memory buffers when copying messages
+- consider switching to faster http stack. Maybe try `https://github.com/valyala/fasthttp`
